@@ -63,6 +63,17 @@ class Pairs extends React.Component {
     this.setState({ dispState: dispStates.PAIR_NEW, selectedChords: {left: '', right: ''} });
   }
 
+  addRandomPair = () => {
+    let randomPair = {left: '', right: ''};
+
+    let availableChords = this.availableChords(randomPair);
+    randomPair.left = availableChords.left[Math.floor(availableChords.left.length * Math.random())];
+    availableChords = this.availableChords(randomPair);
+    randomPair.right = availableChords.right[Math.floor(availableChords.right.length * Math.random())];
+
+    this.createNewPair(randomPair.left, randomPair.right);
+  }
+
   createNewPair = (chordName1, chordName2) => {
     let newPairs = this.state.currentPairs.slice();
 
@@ -122,7 +133,7 @@ class Pairs extends React.Component {
     return result;
   }
 
-  availableChords = () => {
+  availableChords = (selectedChords) => {
     let availableChords = {
       left: [],
       right: [],
@@ -133,10 +144,10 @@ class Pairs extends React.Component {
     allChords.forEach((chord, index) => {
       let pairsWithChord = this.countPairsWithChord(this.state.currentPairs, chord);
       if (pairsWithChord < allChords.length - 1 ) {
-          if (this.state.selectedChords.right !== chord && !this.pairExists(this.state.selectedChords.right, chord)) {
+          if (selectedChords.right !== chord && !this.pairExists(selectedChords.right, chord)) {
               availableChords.left.push(chord);
           }
-          if (this.state.selectedChords.left !== chord && !this.pairExists(this.state.selectedChords.left, chord)) {
+          if (selectedChords.left !== chord && !this.pairExists(selectedChords.left, chord)) {
               availableChords.right.push(chord);
           }
       }
@@ -297,7 +308,7 @@ class Pairs extends React.Component {
 
   render() {
 
-    let availableChords = this.availableChords();
+    let availableChords = this.availableChords(this.state.selectedChords);
 
     let storedPairs = this.state.currentPairs.map((currentPair, index) => {
       return (
@@ -315,7 +326,8 @@ class Pairs extends React.Component {
       return (
         <div>
           <Menu title={ pckg.name }>
-            <Menu.item title='Add pair' icon='fa fa-plus' onClick={ this.addPair } />
+            <Menu.item title='Choose pair' icon='fa fa-plus' onClick={ this.addPair } />
+            <Menu.item title='Add random pair' icon='fa fa-random' onClick={ this.addRandomPair } />
             <Menu.item title='Reset' icon='fa fa-ban' onClick={ this.reset } />
           </Menu>
           <div className="pairs">
