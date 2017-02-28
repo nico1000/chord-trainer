@@ -3,6 +3,8 @@ import Chord from './Chord';
 import Menu from './Menu';
 import Countdown from './Countdown';
 
+import pckg from '../package.json';
+
 const dispStates = {
   PAIRS: 'PAIRS',
   PAIR_NEW: 'PAIR_NEW',
@@ -312,9 +314,9 @@ class Pairs extends React.Component {
     if (this.state.dispState == dispStates.PAIRS) {
       return (
         <div>
-          <Menu>
-            <Menu.item title={<span><i className="fa fa-plus" ></i> Add pair</span>} onClick={ this.addPair } />
-            <Menu.item title={<span><i className="fa fa-ban" ></i> Reset</span>} onClick={ this.reset } />
+          <Menu title={ pckg.name }>
+            <Menu.item title='Add pair' icon='fa fa-plus' onClick={ this.addPair } />
+            <Menu.item title='Reset' icon='fa fa-ban' onClick={ this.reset } />
           </Menu>
           <div className="pairs">
             { storedPairs }
@@ -325,8 +327,8 @@ class Pairs extends React.Component {
     else if (this.state.dispState == dispStates.PAIR_NEW) {
       return (
         <div>
-          <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelAddPair } />
+          <Menu title={ pckg.name }>
+            <Menu.item title='Cancel' icon='fa fa-times' onClick={ this.cancelAddPair } />
           </Menu>
           <div className="columns-container columns-container--select-chords" >
             <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  chordSelectedFn={ this.chordSelected } displayPosition={ 'left' } />
@@ -338,8 +340,8 @@ class Pairs extends React.Component {
     else if (this.state.dispState == dispStates.PAIR_COUNTDOWN) {
       return (
         <div>
-          <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelCountdown } />
+          <Menu title={ pckg.name }>
+            <Menu.item title='Cancel' icon='fa fa-times' onClick={ this.cancelCountdown } />
           </Menu>
           <Countdown
             chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
